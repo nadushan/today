@@ -8,6 +8,13 @@ tcp.port eq 80 - filter by port number and port name
 tcp contains 01:01:04 - match the packets contain a particular sequence
 ip.dst !=192.168.0.0 - Reject the packets based on source
 
+volatility
+-show which pages are memory residence
+      memmap -p <PID>
+-dump the malware
+      procdump -d dump/ -p <PID>
+-dump all memory residence pages
+      memdump -p <PID> -d
 
 Time zone 
 Win-sys32-confg-systm-contlst001-contl-timezoneinfor-standardName
