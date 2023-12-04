@@ -1,0 +1,66 @@
+wireshark
+ip.src == 192.168.0.0 using for filter source addresses of IP address
+ip.dst == 192.168.0.0 using for filter destination addresses of IP address
+http - using for filter protocols
+http||tcp - OR condition in filter(HTTP or TCP)
+http&&ip.src == 192.168.0.0 AND condition in filtering
+tcp.port eq 80 - filter by port number and port name
+tcp contains 01:01:04 - match the packets contain a particular sequence
+ip.dst !=192.168.0.0 - Reject the packets based on source
+
+
+Time zone 
+Win-sys32-confg-systm-contlst001-contl-timezoneinfor-standardName
+
+Os info
+Confg-sw-microsft-windowsNT-currentversion
+
+Computer name
+Win-sys32-confg-systm-contlst001-contl-computerName-computerName
+
+Last ShutDown
+Win-sys32-confg-sw-Microsoft-WindowsNT-Currentversion-prefetcher-Exit time
+
+Last User Login
+Win-sys32-confg-sw-Microsoft-WindowsNT-Currentversion-winlog-default user name
+
+Network Card used
+Sw-Microsoft-windowsNT-CurrentVersion-Networkcard
+
+Ip Address & Details
+System-Contrl Set1-service-tcpip-parameters-Interfaces
+
+Mac of pc 
+System-contl set1-contrl-class-{4d36}
+
+Email client used
+Sw-client-mail
+
+Mounted device
+System-mountdvice
+
+Image hash 
+Data source-select image- file metadata
+
+Os info
+Data artifact-os information-select sw-program name
+
+Installation date
+Data Artifact-os info-select sw-date and time
+
+Registered owner
+Data artifact-os info-select sw-owner
+
+Computer accounts
+Os accounts-login name
+Total accounts
+Os accounts
+
+Domain name used for last web search
+Data Artifact-web search-select last search
+
+Communication program
+Data Artifact-installed program
+
+Exe files in recycle bin
+Program files-recyclbin
