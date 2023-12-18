@@ -1,73 +1,118 @@
-wireshark
-ip.src == 192.168.0.0 using for filter source addresses of IP address
-ip.dst == 192.168.0.0 using for filter destination addresses of IP address
-http - using for filter protocols
-http||tcp - OR condition in filter(HTTP or TCP)
-http&&ip.src == 192.168.0.0 AND condition in filtering
-tcp.port eq 80 - filter by port number and port name
-tcp contains 01:01:04 - match the packets contain a particular sequence
-ip.dst !=192.168.0.0 - Reject the packets based on source
+Question1
 
-volatility
--show which pages are memory residence
-      memmap -p <PID>
--dump the malware
-      procdump -d dump/ -p <PID>
--dump all memory residence pages
-      memdump -p <PID> -d
+R1
+sh version
+licen boot module c2900 technology-package securityk9
+yes
+exit
+copy run start
+reload
 
-Time zone 
-Win-sys32-confg-systm-contlst001-contl-timezoneinfor-standardName
+a.
+ip route 0.0.0.0 0.0.0.0 10.10.10.2 
+access-list 110 permit udp host 10.10.10.2 host 10.10.10.1 eq isakmp 
+access-list 110 permit udp host 10.10.10.2 host 10.10.10.1 eq non500-isakmp 
+access-list 110 permit ahp host 10.10.10.2 host 10.10.10.1 
+access-list 110 permit esp host 10.10.10.2 host 10.10.10.1 
+int g0/1 
+ip access-group 110 in 
+do sh access-list 
 
-Os info
-Confg-sw-microsft-windowsNT-currentversion
+b.
+access-list 120 permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
 
-Computer name
-Win-sys32-confg-systm-contlst001-contl-computerName-computerName
+c. 
+crypto isakmp policy 50 
+authentication pre-share 
+group 5 
+lifetime 86400 
+hash sha 
+do sh crypto isakmp policy 
 
-Last ShutDown
-Win-sys32-confg-sw-Microsoft-WindowsNT-Currentversion-prefetcher-Exit time
+d. 
+crypto isakmp key seuslipsec2022 address 10.10.10.2 
+crypto ipsec transform-set SEUSL-TS esp-aes esp-sha-hmac 
 
-Last User Login
-Win-sys32-confg-sw-Microsoft-WindowsNT-Currentversion-winlog-default user name
+e. 
+crypto map SEUSL-MAP 20 ipsec-isakmp 
+match address 120 
+set transform-set SEUSL-TS 
+set peer 10.10.10.2 
+set security-association lifetime seconds 86400 
+int g0/1 
+crypto map SEUSL-MAP 
+ip route 0.0.0.0 0.0.0.0 10.10.10.2
 
-Network Card used
-Sw-Microsoft-windowsNT-CurrentVersion-Networkcard
+R2
+sh version
+licen boot module c2900 technology-package securityk9
+yes
+exit
+copy run start
+reload
 
-Ip Address & Details
-System-Contrl Set1-service-tcpip-parameters-Interfaces
+a.
+ip route 0.0.0.0 0.0.0.0 10.10.10.1
+access-list 110 permit udp host 10.10.10.1 host 10.10.10.2 eq isakmp 
+access-list 110 permit udp host 10.10.10.1 host 10.10.10.2 eq non500-isakmp 
+access-list 110 permit ahp host 10.10.10.1 host 10.10.10.2
+access-list 110 permit esp host 10.10.10.1 host 10.10.10.2 
+int g0/1 
+ip access-group 110 in 
+do sh access-list 
 
-Mac of pc 
-System-contl set1-contrl-class-{4d36}
+b.
+access-list 120 permit ip 192.168.20.0 0.0.0.255 192.168.10.0 0.0.0.255
 
-Email client used
-Sw-client-mail
+c. 
+crypto isakmp policy 50 
+authentication pre-share 
+group 5 
+lifetime 86400 
+hash sha 
+do sh crypto isakmp policy 
 
-Mounted device
-System-mountdvice
+d. 
+crypto isakmp key seuslipsec2022 address 10.10.10.1
+crypto ipsec transform-set SEUSL-TS esp-aes esp-sha-hmac 
 
-Image hash 
-Data source-select image- file metadata
+e. 
+crypto map SEUSL-MAP 20 ipsec-isakmp 
+match address 120 
+set transform-set SEUSL-TS 
+set peer 10.10.10.1
+set security-association lifetime seconds 86400 
+int g0/1 
+crypto map SEUSL-MAP 
+ip route 0.0.0.0 0.0.0.0 10.10.10.1
 
-Os info
-Data artifact-os information-select sw-program name
 
-Installation date
-Data Artifact-os info-select sw-date and time
+*****************************************
 
-Registered owner
-Data artifact-os info-select sw-owner
+Question2
 
-Computer accounts
-Os accounts-login name
-Total accounts
-Os accounts
+int f0/1
+switchport mode access
+switchport port-security
+switchport port-security mac-address 000C.CFAB.00AA
+switchport port-security violation shutdown
+do sh port-security int f0/1
 
-Domain name used for last web search
-Data Artifact-web search-select last search
+int f0/1
+no switchport port-security mac-address 000C.CFAB.00AA
+switchport port-security mac-address 0001.9621.1861
+config--f0/1-port on
+switchport mode access
+switchport port-security
+switchport port-security mac-address sticky
+switchport port-security violation restrict
+do sh port-security
 
-Communication program
-Data Artifact-installed program
-
-Exe files in recycle bin
-Program files-recyclbin
+int f0/1
+switchport mode access
+switchport port-security
+switchport port-security mac-address sticky
+switchport port-security maximum 3
+switchport port-security violation restrict
+do sh mac-address-table
+do sh port-security
