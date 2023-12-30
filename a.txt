@@ -1,0 +1,56 @@
+open ssl---------------------------------------------
+sudo apt update
+
+sudo apt-get install apache2 apache2-doc apache2-utils openssl
+apache2 -version
+
+generate certificate
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout apache.key -out apache.cert
+
+enable apache ssl mode
+sudo a2enmod ssl
+
+edit vhost file
+goto the vhost location
+open terminal
+sudo nano default-ssl.conf
+
+control+x = save
+
+enable vhost
+sudo a2ensite default-ssl.conf
+systemctl reload apache2
+
+Burpsuit---------------------------------------------
+
+Type of connection establish
+Request--> connection:colse
+
+Name of the sever used
+response-->sever:apple
+
+protection against cross-site(XSS) attacks
+response-->x-xss protection:1; mode = block
+
+cache hit value
+response-->x-cache:tcp-MEM-hit.from
+
+attack type presented under"Intruder"Tab
+Intruder TAB-->Attack type:sniper
+
+"Logger" used
+Logger TAB--> ss
+
+Live passive crawl from proxy
+Dashboard TAB--> 1.live passive
+
+wireshark---------------------------------------------
+
+ip.src == 192.168.0.0 using for filter source addresses of IP address
+ip.dst == 192.168.0.0 using for filter destination addresses of IP address
+http - using for filter protocols
+http||tcp - OR condition in filter(HTTP or TCP)
+http&&ip.src == 192.168.0.0 AND condition in filtering
+tcp.port eq 80 - filter by port number and port name
+tcp contains 01:01:04 - match the packets contain a particular sequence
+ip.dst !=192.168.0.0 - Reject the packets based on source
